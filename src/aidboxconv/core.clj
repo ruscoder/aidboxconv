@@ -10,16 +10,16 @@
            [org.slf4j LoggerFactory]
            [ch.qos.logback.classic Logger Level]))
 
+;; \0x2 is used as delimiter
+(def delimiter (char 2))
+
 (defn- set-log-level [level]
   (.. (LoggerFactory/getLogger org.slf4j.Logger/ROOT_LOGGER_NAME)
       (setLevel (Level/valueOf (.toUpperCase (name level))))))
 
-(defn- prepare-csv [{:keys [id resourceType] :as json-obj} txid]
-  (let [json-str (json/generate-string (dissoc json-obj :id :resourceType))
-        escaped-json (-> json-str
-                         (str/replace "\\" "\\\\")
-                         (str/replace "," "\\,"))]
-    (str/join "," [id txid resourceType escaped-json])))
+(defn- prepare-csv [{:keys [id resourceType] :as res} txid]
+  (let [json-str (json/generate-string (dissoc res :id :resourceType))]
+    (str/join delimiter [id txid resourceType json-str])))
 
 (defn -main [& args]
   (set-log-level :error)
