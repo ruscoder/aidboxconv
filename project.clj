@@ -37,4 +37,7 @@
                  [route-map "0.0.4"]
                  [markdown-clj "1.0.2"]
                  [de.ubercode.clostache/clostache "1.4.0"]
-                 [io.minio/minio "3.0.11"]])
+                 [io.minio/minio "3.0.11"]]
+  :uberjar-name "aidboxconv.jar"
+  :main aidboxconv.core
+  :profiles {:uberjar {:aot :all :omit-source true}})
